@@ -7,12 +7,15 @@ from utilities.ReadProperties import ReadConfig
 from PageObjects.LoginPage import LoginPage
 from .conftest import setup
 import time
-from selenium.webdriver.support import expected_conditions as EC
+import pytest
+from PageObjects.LoginPage import LoginPage
 
 class Test_001_Login:
     baseUrl = ReadConfig.getApplicationURL()
     username = ReadConfig.getUseremail()
     password = ReadConfig.getPassword()
+
+
 
     def test_LoginpageTitle(self):
         self.driver = setup()
@@ -34,6 +37,7 @@ class Test_001_Login:
         self.lp.setemail(self.username)
         self.lp.setpassword(self.password)
         self.lp.clicklogin()
+        act_title = self.driver.title
         if act_title == "Astrom HQ":
             assert True
             self.driver.close()
@@ -41,4 +45,13 @@ class Test_001_Login:
             self.driver.save_screenshot("E:\Scageon\Training\Automation-Astrom\Screenshots" + "test_HomepageTitle.png")
             assert False
 
+
+    def test_Login(self):
+        self.driver = setup()
+        self.driver.get(self.baseUrl)
+        self.lp = LoginPage(self.driver)
+        time.sleep(5)
+        self.lp.setemail(self.username)
+        self.lp.setpassword(self.password)
+        self.lp.clicklogin()
 
